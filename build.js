@@ -44,7 +44,7 @@ function loadEnvFile(filePath, envObject) {
   
   const content = fs.readFileSync(filePath, 'utf8');
   content.split(/\r?\n/).forEach(line => {
-    const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)?\s*$/);
+    const match = line.match(/^\s*([\w_]+)\s*=(.*)$/);
     if (match) {
       let val = match[2] ? match[2].trim() : '';
       // Remove quotes
