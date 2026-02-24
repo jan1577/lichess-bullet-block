@@ -34,8 +34,12 @@ if (document.querySelector("#main-wrap > main > div.lobby__table")){
 
   // observing changes, as the button changes it's class name when clicked
   const mutationObserver_lobby_start = new MutationObserver(mutations => {
-      // if statement to check whether the button was clicked or the div closed
-      if (document.querySelector("#main-wrap > main > div.lobby__table > div.lobby__start > a.button.button-metal.config_hook.active")){
+      // Check if the modal has been opened (new structure)
+      if (document.querySelector("#main-wrap > main > div.lobby__table > div.snab-modal-mask")) {
+        change_slider();
+      }
+      // Fallback for older structure / if statement to check whether the button was clicked or the div closed
+      else if (document.querySelector("#main-wrap > main > div.lobby__table > div.lobby__start > a.button.button-metal.config_hook.active")){
           change_slider();
       }
 
@@ -136,7 +140,7 @@ function remove_elements_lobby(games_table){
  * {Change slider} changes the min value based on options set.
  */
 
-if (document.querySelector("#modal-wrap > div > div.setup-content > div.time-mode-config.optional-config > div.time-choice.range > input")){
+if (document.querySelector(".setup-content input.range")){
     change_slider();
 }
 
@@ -144,18 +148,51 @@ if (document.querySelector("#modal-wrap > div > div.setup-content > div.time-mod
 // changing minimum value of the slider
 function change_slider(){
 
-    let slider = document.querySelector(
-        //"#modal-wrap > div > div.setup-content > div.time-mode-config.optional-config > div.time-choice.range > input"
-        "#main-wrap > main > div.lobby__table > dialog > div.scrollable > div > div.setup-content > div.time-mode-config.optional-config > div.time-choice.range > input"
-    );
+    // prioritizing the modal inside the lobby table to avoid hidden elements
+    let sliders = document.querySelectorAll(".lobby__table .setup-content input.range");
+    if (sliders.length === 0) {
+        sliders = document.querySelectorAll(".setup-content input.range");
+    }
+
+    let timeSlider = sliders[0]; // Assuming first slider is time
+    
     // minimum blitz value
-    slider.min = 7;
+    if (timeSlider) {
+        timeSlider.min = 7;
+        
+        StorageService.get(['block_blitz_storage']).then(function(result) {
+            if (result['block_blitz_storage']){
+                // minimum rapid value
+                timeSlider.min = 12; // Adjusted based on previous logic (was 12)
+            }
+        });
+        
+        // Trigger generic input event to update UI
+        timeSlider.dispatchEvent(new Event('input', { bubbles: true }));
+        timeSlider.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    // Remove preset buttons
+    remove_preset_buttons();
+}
+
+function remove_preset_buttons() {
+    const presets = document.querySelectorAll(".setup-content .presets button");
+    if (!presets.length) return;
 
     StorageService.get(['block_blitz_storage']).then(function(result) {
-        if (result['block_blitz_storage']){
-            // minimum rapid value
-            slider.min = 12;
-        }
+        const blockBlitz = result['block_blitz_storage'];
+        const blockedBullet = ["1+0", "2+1", "½+0", "¼+0"]; // Common bullet controls
+        const blockedBlitz = ["3+0", "3+2", "5+0", "5+3"]; // Common blitz controls
+
+        presets.forEach(btn => {
+            const text = btn.textContent.trim();
+            if (blockedBullet.includes(text)) {
+                btn.remove();
+            } else if (blockBlitz && blockedBlitz.includes(text)) {
+                btn.remove();
+            }
+        });
     });
 }
 
