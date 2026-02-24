@@ -1,10 +1,10 @@
 // first time use: set all values to false (only bullet blocked)
-chrome.storage.local.get(['block_blitz_storage'], function(result) {
-    if (result == null) {
-        chrome.storage.local.set({'block_blitz_storage': false});
-        chrome.storage.local.set({'block_puzzle_storm': false});
-        chrome.storage.local.set({'block_puzzle_streak': false});
-        chrome.storage.local.set({'block_puzzle_racer': false});
+StorageService.get(['block_blitz_storage']).then(function(result) {
+    if (Object.keys(result).length === 0) {
+        StorageService.set({'block_blitz_storage': false});
+        StorageService.set({'block_puzzle_storm': false});
+        StorageService.set({'block_puzzle_streak': false});
+        StorageService.set({'block_puzzle_racer': false});
     }
   });
 
@@ -53,23 +53,23 @@ if (document.querySelector("#main-wrap > main > div.lobby__table")){
 function remove_elements_QP(){
     // remove bullet
     let _bullet1 = document.querySelector('[data-id="1+0"]');
+    if (_bullet1) _bullet1.remove();
+
     let _bullet2 = document.querySelector('[data-id="2+1"]');
-    _bullet1.remove();
-    _bullet2.remove();
+    if (_bullet2) _bullet2.remove();
 
     // get value for blitz from storage; if true, remove blitz values
 
-    chrome.storage.local.get(['block_blitz_storage'], function(result) {
-
+    StorageService.get(['block_blitz_storage']).then(function(result) {
         if (result['block_blitz_storage']){
             let _blitz1 = document.querySelector('[data-id="3+0"]');
+            if (_blitz1) _blitz1.remove();
             let _blitz2 = document.querySelector('[data-id="3+2"]');
+            if (_blitz2) _blitz2.remove();
             let _blitz3 = document.querySelector('[data-id="5+0"]');
+            if (_blitz3) _blitz3.remove();
             let _blitz4 = document.querySelector('[data-id="5+3"]');
-            _blitz1.remove();
-            _blitz2.remove();
-            _blitz3.remove();
-            _blitz4.remove();
+            if (_blitz4) _blitz4.remove();
         };
     });
 }
@@ -116,7 +116,7 @@ function remove_elements_lobby(games_table){
     let tableRows = tbody.getElementsByTagName('tr');
 
     // check for current option
-    chrome.storage.local.get(['block_blitz_storage'], function(result) {
+    StorageService.get(['block_blitz_storage']).then(function(result) {
         let block_blitz_games = result['block_blitz_storage'];
         
         // loop through all games. if Bullet -> set display to none
@@ -151,7 +151,7 @@ function change_slider(){
     // minimum blitz value
     slider.min = 7;
 
-    chrome.storage.local.get(['block_blitz_storage'], function(result) {
+    StorageService.get(['block_blitz_storage']).then(function(result) {
         if (result['block_blitz_storage']){
             // minimum rapid value
             slider.min = 12;
@@ -166,21 +166,19 @@ function change_slider(){
  */
 if (document.querySelector("#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div")){
     let new_opponent = document.querySelector(
-        "#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div > a"
+        "#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div > button.fbt.new-opponent"
     );
 
     // href for new game
     if (new_opponent) {
-        let link = new_opponent.href.toString();
-        chrome.storage.local.get(['block_blitz_storage'], function(result) {
+        // check the game title/meta info for the time control
+        let link = document.title + " " + (document.querySelector('.game__meta')?.innerText || "");
+        StorageService.get(['block_blitz_storage']).then(function(result) {
 
             let substrings = [];
     
-            // check if blitz games are blocked
             if (result['block_blitz_storage']){
-    
                 substrings = ["1+0", "2+1", "3+0", "3+2", "5+0", "5+3"];
-            // else: only block bullet games
             } else {
                 substrings = ["1+0", "2+1"]
             }
@@ -199,14 +197,10 @@ if (document.querySelector("#main-wrap > main > div.round__app.variant-standard 
 function compare_strings(substrings, link){
     if (substrings.some(str => link.includes(str))){
         // if the current game is a Bullet or Blitz Game, do not display the New Opponent button
-        document.querySelector("#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div > a:nth-child(2)").style.display = "none";
+        document.querySelector("#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div > button.fbt.new-opponent").style.display = "none";
     }
     else {
         // if not a Bullet or Blitz Game, display the New Opponent button
-        document.querySelector("#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div > a:nth-child(2)").style.display = "block";
+        document.querySelector("#main-wrap > main > div.round__app.variant-standard > div.rcontrols > div > button.fbt.new-opponent").style.display = "block";
     }
 }
-
-
-
-

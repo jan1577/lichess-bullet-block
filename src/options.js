@@ -24,13 +24,13 @@ function saveOptions() {
     enableQuotes = true;
   }
 
-  chrome.storage.local.set({
+  StorageService.set({
     block_blitz_storage: blockBlitz,
     block_puzzle_storm: blockStorm,
     block_puzzle_racer: blockRacer,
     block_puzzle_streak: blockStreak,
     enable_quotes: enableQuotes
-  }, function () {
+  }).then(function () {
     // Update status to let user know options were saved.
     var status = document.getElementById('status');
     status.textContent = 'Options saved. Refresh lichess to apply the changes.';
@@ -44,7 +44,7 @@ function saveOptions() {
 /* Restore selected options from local storage */
 function restoreOptions() {
 
-  chrome.storage.local.get(['block_blitz_storage'], function (item) {
+  StorageService.get(['block_blitz_storage']).then(function (item) {
     if (item['block_blitz_storage']) {
       document.getElementById('block-blitz').checked = true;
       document.getElementById('enable-blitz').checked = false;
@@ -59,7 +59,7 @@ function restoreOptions() {
     restorePuzzles(puzzleArray[i], puzzleArray[i + 1])
   }
 
-  chrome.storage.local.get(['enable_quotes'], function (item) {
+  StorageService.get(['enable_quotes']).then(function (item) {
     if (item['enable_quotes']) {
       document.getElementById('enable-quotes').checked = true;
       document.getElementById('disable-quotes').checked = false;
@@ -72,7 +72,7 @@ function restoreOptions() {
 
 
 function restorePuzzles(storageVar, elementId) {
-  chrome.storage.local.get([storageVar], function (item) {
+  StorageService.get([storageVar]).then(function (item) {
     if (item[storageVar]) {
       document.getElementById(elementId).checked = true;
     } else {
