@@ -56,8 +56,7 @@ function insertQuote() {
     topBar.parentNode.insertBefore(div, topBar.nextSibling);
 }
 
-
-enable_quotes = chrome.storage.local.get(['enable_quotes'], function (result) {
+StorageService.get(['enable_quotes']).then(function (result) {
     if (!result['enable_quotes']) {
         return;
     } else {

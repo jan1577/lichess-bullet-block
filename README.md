@@ -20,9 +20,9 @@
   </tr>
 </table>
 
-A Chrome Extension to remove Bullet Games from lichess.org.
+A Chrome Extension & Firefox Addon to remove Bullet Games from lichess.org.
 
-Bullet Games are addictive - this Chrome extension removes all options to launch a Bullet Game on lichess, stopping
+Bullet Games are addictive - this Browser Extension removes all options to launch a Bullet Game on lichess, stopping
 you from wasting your time by chasing the next dopamine push.
 
 In addition, you can disable Blitz Games and select Puzzle modes you want to block.
@@ -30,11 +30,21 @@ In addition, you can disable Blitz Games and select Puzzle modes you want to blo
 ## Setup
 You can get the extension in the Chrome Webstore or add it to your browser manually.
 
-To download it from the webstore, click [here](https://chrome.google.com/webstore/detail/lichessbulletblock/hggjliiolhipmgoomadfmpdlafknhpmd).
+To download it from the webstore for any chromium based browser, click [here](https://chrome.google.com/webstore/detail/lichessbulletblock/hggjliiolhipmgoomadfmpdlafknhpmd).
+To download for firefox, click [here](https://addons.mozilla.org/en-US/firefox/addon/lichessbulletblock/)
 
-To add it manually, follow the steps below.
-Clone the repository or download as a ZIP-file and unzip the files. Next, go to chrome://extensions/ and turn on developer mode. 
-Click "Load unpacked" and upload the src directory. After installing, you can turn off developer mode.
+### Local Setup
+
+1. Clone the repository.
+2. Run `npm install` to install dependencies.
+3. Build the extension for your target platform:
+   - For Chrome: `npm run build chrome`
+   - For Firefox: `npm run build firefox`
+4. The build script will prompt you to optionally bump the version (patch, minor, or major).
+5. The built extension will be available in the `dist/chrome` or `dist/firefox` directory.
+6. Load the extension in your browser:
+   - **Chrome**: Go to `chrome://extensions`, enable "Developer mode", click "Load unpacked", and select the `dist/chrome` folder.
+   - **Firefox**: Go to `about:debugging#/runtime/this-firefox`, click "Load Temporary Add-on...", and select the zipped directory.
 
 ## Options
 The extension has an options page which can be found by right-clicking on the extension logo and navigating to "Options".

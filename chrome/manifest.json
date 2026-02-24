@@ -30,6 +30,7 @@
     "content_scripts": [
         {
             "js": [
+                "services/storageService.js",
                 "content.js",
                 "puzzle.js"
             ],
@@ -39,6 +40,7 @@
         },
         {
             "js": [
+                "services/storageService.js",
                 "quotes.js"
             ],
             "matches": [

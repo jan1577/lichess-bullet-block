@@ -17,7 +17,7 @@ let links = document.getElementsByTagName('a'),
 Array.from(links, elem => {
     if (elem.getAttribute('href') == "/storm") {
         // get current option
-        chrome.storage.local.get(['block_puzzle_storm'], function (result) {
+        StorageService.get(['block_puzzle_storm']).then(function (result) {
             // check if puzzle is blocked
             // if it's a "button" -> remove it
             if (result['block_puzzle_storm']) {
@@ -30,7 +30,7 @@ Array.from(links, elem => {
         });
     }
     else if (elem.getAttribute('href') == "/racer") {
-        chrome.storage.local.get(['block_puzzle_racer'], function (result) {
+        StorageService.get(['block_puzzle_racer']).then(function (result) {
             // check puzzle racer is blocked
             if (result['block_puzzle_racer']) {
                 if (elem.parentElement.role == "group") {
@@ -46,7 +46,7 @@ Array.from(links, elem => {
         });
     }
     else if (elem.getAttribute('href') == "/streak") {
-        chrome.storage.local.get(['block_puzzle_streak'], function (result) {
+        StorageService.get(['block_puzzle_streak']).then(function (result) {
             if (result['block_puzzle_streak']) {
                 if (elem.parentElement.role == "group") {
                     elem.style.display = 'none';

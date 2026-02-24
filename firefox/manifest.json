@@ -1,0 +1,52 @@
+{
+    "manifest_version": 2,
+    "name": "LichessBulletBlock",
+    "version": "1.2.1",
+    "description": "Remove Bullet Games from Lichess, optionally block Blitz Games and Puzzle Variants",
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": false
+    },
+    "permissions": [
+        "storage"
+    ],
+    "icons": {
+        "16": "icons/16.png",
+        "48": "icons/48.png",
+        "128": "icons/128.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "16": "icons/16.png",
+            "48": "icons/48.png",
+            "128": "icons/128.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "js": [
+                "services/storageService.js",
+                "content.js",
+                "puzzle.js"
+            ],
+            "matches": [
+                "https://lichess.org/*"
+            ]
+        },
+        {
+            "js": [
+                "services/storageService.js",
+                "quotes.js"
+            ],
+            "matches": [
+                "https://lichess.org/"
+            ]
+        }
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "LichessBulletBlock@6a000b45-4a8a-4e5f-87af-924632e83527",
+            "strict_min_version": "113.0"
+        }
+    }
+}
