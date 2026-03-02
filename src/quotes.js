@@ -44,16 +44,42 @@ const quotes = [
 function insertQuote() {
     let div = document.createElement('div');
     div.id = 'quote';
-    div.className = 'lobby__support__text';
 
     let p = document.createElement('p');
     p.id = 'quote-text';
-    p.style = "text-align:center; margin: 1%;";
+    p.style.cssText = "text-align: center; margin: 0; font-style: italic; opacity: 0.85;";
     p.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
     div.appendChild(p);
 
-    let topBar = document.getElementById('top');
-    topBar.parentNode.insertBefore(div, topBar.nextSibling);
+    const mainWrap = document.getElementById('main-wrap');
+
+    if (mainWrap && mainWrap.parentNode) {
+        // Steal #main-wrap's margin-top (which clears the fixed header) so
+        // our div gets that spacing instead. Then zero out #main-wrap's own
+        // margin-top so it sits directly below the quote. This works
+        // consistently in both Chrome and Firefox.
+        const mainWrapMarginTop = getComputedStyle(mainWrap).marginTop;
+
+        div.style.cssText = [
+            "width: 100%",
+            "box-sizing: border-box",
+            "text-align: center",
+            "padding: 8px 16px",
+            "margin-top: " + mainWrapMarginTop,
+            "background: transparent",
+            "color: #d59120",
+        ].join("; ") + ";";
+
+        mainWrap.parentNode.insertBefore(div, mainWrap);
+        mainWrap.style.marginTop = "0";
+    } else {
+        console.log('LichessBulletBlock: #main-wrap not found, using fallback.');
+        div.style.cssText = "width: 100%; box-sizing: border-box; text-align: center; padding: 8px 16px;";
+        const topBar = document.getElementById('top');
+        if (topBar && topBar.parentNode) {
+            topBar.parentNode.insertBefore(div, topBar.nextSibling);
+        }
+    }
 }
 
 StorageService.get(['enable_quotes']).then(function (result) {
@@ -62,6 +88,8 @@ StorageService.get(['enable_quotes']).then(function (result) {
     } else {
         insertQuote();
     }
+}).catch((error) => {
+    console.error('LichessBulletBlock: Failed to load quotes setting.', error);
 });
 
 

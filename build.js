@@ -113,6 +113,15 @@ async function start() {
       manifest.version = parts.join('.');
       console.log(`Bumping to ${manifest.version}`);
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 4));
+
+      // update package.json to match
+      const packageJsonPath = path.join(rootDir, 'package.json');
+      if (fs.existsSync(packageJsonPath)) {
+          const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+          pkg.version = manifest.version;
+          fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2));
+          console.log('Updated package.json version.');
+      }
     } else {
       console.log('Keeping version specific to this platform.');
     }
@@ -133,12 +142,12 @@ async function start() {
 
     ensureCleanDir(targetDir);
 
-    // 3. Copy Files
+    // Copy Files
     fs.cpSync(sourceDir, targetDir, { recursive: true });
     // Copy platform-specific manifest
     fs.copyFileSync(manifestPath, path.join(targetDir, 'manifest.json'));
 
-    // 4. Evironment Variable Injection
+    // Evironment Variable Injection
     const env = {};
     loadEnvFile(path.join(rootDir, '.env'), env);
     loadEnvFile(path.join(platformDir, `.env.${platform}`), env);
@@ -155,7 +164,7 @@ async function start() {
       }
     }
 
-    // 5. Final Packaging
+    // Final Packaging
     if (platform === 'firefox') {
       const zipName = `${platform}-v${manifest.version}.zip`;
       const zipPath = path.join(distBase, zipName);

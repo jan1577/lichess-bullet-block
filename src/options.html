@@ -15,9 +15,32 @@
         <h1>Do you want to block Blitz Games as well?</h1>
         <form action="/action_page.php">
             <input type="radio" id="block-blitz" name="blitz-radio" value="yes">
-            <label for="html">yes</label><br>
+            <label for="block-blitz">Yes</label><br>
             <input type="radio" id="enable-blitz" name="blitz-radio" value="no">
-            <label for="css">no</label><br>
+            <label for="enable-blitz">No</label><br>
+            <input type="radio" id="custom-blitz" name="blitz-radio" value="custom">
+            <label for="custom-blitz">Custom Rule</label><br>
+            
+            <div id="custom-rules-container" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+                <h3>Custom Blitz Rule</h3>
+                <p>Allow games where:</p>
+                
+                <label for="custom-minutes">Minutes >= </label>
+                <span id="minutes-val">3</span>
+                <input type="range" id="custom-minutes" name="custom-minutes" min="3" max="15" value="3">
+                
+                <br>
+                <select id="custom-operator">
+                    <option value="AND" selected>AND</option>
+                    <option value="OR">OR</option>
+                </select>
+                <br>
+                
+                <label for="custom-increment">Increment >= </label>
+                <span id="increment-val">0</span>
+                <input type="range" id="custom-increment" name="custom-increment" min="0" max="20" value="0">
+                <span>seconds</span>
+            </div>
         </form>
         <h1>Select Puzzle Variants you want to block</h1>
         <div id="puzzle-variants">

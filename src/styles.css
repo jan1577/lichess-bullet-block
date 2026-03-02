@@ -1,6 +1,6 @@
 body,
 #content {
-    overflow: hidden;
+    overflow: auto;
     min-height: 200px;
     min-width: 350px;
     text-align: center;

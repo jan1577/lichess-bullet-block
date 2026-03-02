@@ -5,7 +5,7 @@
     "description": "Remove Bullet Games from Lichess, optionally block Blitz Games and Puzzle Variants",
     "options_ui": {
         "page": "options.html",
-        "open_in_tab": false
+        "open_in_tab": true
     },
     "permissions": [
         "storage"
@@ -26,6 +26,9 @@
         {
             "js": [
                 "services/storageService.js",
+                "utils/timeControl.js",
+                "utils/slider.js",
+                "utils/lobby.js",
                 "content.js",
                 "puzzle.js"
             ],
