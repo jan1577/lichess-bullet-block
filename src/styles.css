@@ -1,38 +1,398 @@
-body,
+/* ── Lichess-themed Options Page ── */
+:root {
+    --bg-primary: #161512;
+    --bg-secondary: #1f1d1b;
+    --bg-card: #272523;
+    --bg-card-hover: #302e2c;
+    --accent: #bf811d;
+    --accent-hover: #d99a2e;
+    --accent-glow: rgba(191, 129, 29, 0.25);
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #787878;
+    --border: #3a3835;
+    --danger: #cc3333;
+    --gold: #bf811d;
+    --radius: 8px;
+    --transition: 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-width: 380px;
+    overflow: auto;
+}
+
 #content {
-    overflow: hidden;
-    min-height: 200px;
-    min-width: 350px;
-    text-align: center;
-    display: block;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 16px 20px 20px;
 }
 
-h1 {
-    font-size: medium;
+/* ── Top bar: icons & branding ── */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
 }
 
-a {
-    margin: auto;
+.top-bar .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.3px;
+}
+
+.top-bar .brand img {
+    width: 22px;
+    height: 22px;
+}
+
+.top-bar-links {
+    display: flex;
+    gap: 6px;
+}
+
+.top-bar-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
+}
+
+.top-bar-links a:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
 }
 
 .fab, .fas {
-    color: black;
-    font-size: 20px;
+    font-size: 15px;
+    color: inherit;
 }
 
-.review, #status{
-    display: block;
-    margin: 2%;
+/* ── Section cards ── */
+.section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
 }
 
+.section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 10px;
+}
+
+/* ── Radio buttons ── */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background var(--transition);
+    font-size: 13.5px;
+}
+
+.radio-group label:hover {
+    background: var(--bg-card-hover);
+}
+
+.radio-group input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color var(--transition);
+}
+
+.radio-group input[type="radio"]:checked {
+    border-color: var(--accent);
+}
+
+.radio-group input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* ── Checkboxes ── */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background var(--transition);
+    font-size: 13.5px;
+}
+
+.checkbox-group label:hover {
+    background: var(--bg-card-hover);
+}
+
+.checkbox-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--text-muted);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color var(--transition), background var(--transition);
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+    border-color: var(--accent);
+    background: var(--accent);
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--bg-primary);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ── Custom rules panel ── */
+#custom-rules-container {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-top: 10px;
+}
+
+#custom-rules-container h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+#custom-rules-container p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+/* ── Modern sliders ── */
+.slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.slider-row label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+.slider-row .slider-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 24px;
+    text-align: center;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg-primary);
+    box-shadow: 0 0 0 2px var(--accent-glow);
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg-primary);
+    cursor: pointer;
+}
+
+/* ── Operator select ── */
+.operator-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0;
+}
+
+#custom-operator {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+#custom-operator:hover,
+#custom-operator:focus {
+    border-color: var(--accent);
+}
+
+/* ── Save button ── */
 #save {
-    margin: 3%;
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background var(--transition), box-shadow var(--transition);
+}
+
+#save:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 2px 12px var(--accent-glow);
+}
+
+#save:active {
+    transform: scale(0.98);
+}
+
+/* ── Status message ── */
+#status {
+    text-align: center;
+    font-size: 12px;
+    color: var(--accent);
+    min-height: 18px;
+    margin-top: 6px;
+}
+
+/* ── Review section ── */
+.review {
+    text-align: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.review p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.review a {
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.review a:hover {
+    color: #d99a2e;
 }
 
 hr.solid {
-    border-top: 3px solid #bbb;
+    display: none;
 }
 
 p {
     margin-bottom: 0;
+}
+
+a {
+    margin: auto;
 }

@@ -27,7 +27,7 @@ Array.from(links, elem => {
                     removeHref(elem);
                 }
             }
-        });
+        }).catch((e) => console.error(e));
     }
     else if (elem.getAttribute('href') == "/racer") {
         StorageService.get(['block_puzzle_racer']).then(function (result) {
@@ -43,7 +43,7 @@ Array.from(links, elem => {
                     }
                 }
             }
-        });
+        }).catch((e) => console.error(e));
     }
     else if (elem.getAttribute('href') == "/streak") {
         StorageService.get(['block_puzzle_streak']).then(function (result) {
@@ -58,6 +58,6 @@ Array.from(links, elem => {
                     }
                 }
             }
-        });
+        }).catch((e) => console.error(e));
     }
 });

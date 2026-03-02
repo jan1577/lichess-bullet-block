@@ -113,6 +113,15 @@ async function start() {
       manifest.version = parts.join('.');
       console.log(`Bumping to ${manifest.version}`);
       fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 4));
+
+      // update package.json to match
+      const packageJsonPath = path.join(rootDir, 'package.json');
+      if (fs.existsSync(packageJsonPath)) {
+          const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+          pkg.version = manifest.version;
+          fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2));
+          console.log('Updated package.json version.');
+      }
     } else {
       console.log('Keeping version specific to this platform.');
     }
@@ -133,29 +142,32 @@ async function start() {
 
     ensureCleanDir(targetDir);
 
-    // 3. Copy Files
+    // Copy Files
     fs.cpSync(sourceDir, targetDir, { recursive: true });
     // Copy platform-specific manifest
     fs.copyFileSync(manifestPath, path.join(targetDir, 'manifest.json'));
 
-    // 4. Evironment Variable Injection
+    // Evironment Variable Injection
     const env = {};
     loadEnvFile(path.join(rootDir, '.env'), env);
     loadEnvFile(path.join(platformDir, `.env.${platform}`), env);
 
     if (Object.keys(env).length > 0) {
-      const optsPath = path.join(targetDir, 'options.html');
-      if (fs.existsSync(optsPath)) {
-        let content = fs.readFileSync(optsPath, 'utf8');
-        for (const [key, val] of Object.entries(env)) {
-          content = content.replace(new RegExp(`__${key}__`, 'g'), val);
+      const htmlFiles = ['options.html', 'whatsnew.html'];
+      for (const htmlFile of htmlFiles) {
+        const filePath = path.join(targetDir, htmlFile);
+        if (fs.existsSync(filePath)) {
+          let content = fs.readFileSync(filePath, 'utf8');
+          for (const [key, val] of Object.entries(env)) {
+            content = content.replace(new RegExp(`__${key}__`, 'g'), val);
+          }
+          fs.writeFileSync(filePath, content);
         }
-        fs.writeFileSync(optsPath, content);
-        console.log('Environment variables injected.');
       }
+      console.log('Environment variables injected.');
     }
 
-    // 5. Final Packaging
+    // Final Packaging
     if (platform === 'firefox') {
       const zipName = `${platform}-v${manifest.version}.zip`;
       const zipPath = path.join(distBase, zipName);

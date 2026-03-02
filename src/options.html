@@ -12,44 +12,102 @@
 
 <body>
     <div id="content">
-        <h1>Do you want to block Blitz Games as well?</h1>
-        <form action="/action_page.php">
-            <input type="radio" id="block-blitz" name="blitz-radio" value="yes">
-            <label for="html">yes</label><br>
-            <input type="radio" id="enable-blitz" name="blitz-radio" value="no">
-            <label for="css">no</label><br>
-        </form>
-        <h1>Select Puzzle Variants you want to block</h1>
-        <div id="puzzle-variants">
-            <input type="checkbox" id="block-storm" name="block-storm">
-            <label for="html">Puzzle Storm</label><br>
-            <input type="checkbox" id="block-streak" name="block-streak">
-            <label for="css">Puzzle Streak</label><br>
-            <input type="checkbox" id="block-racer" name="block-racer">
-            <label for="css">Puzzle Racer</label><br>
+        <!-- Top bar with branding & icon links -->
+        <div class="top-bar">
+            <div class="brand">
+                <img src="icons/48.png" alt="LBB">
+                Lichess Bullet Block
+            </div>
+            <div class="top-bar-links">
+                <a target="_blank" title="Source Code" href="__URL_GITHUB__"><i class="fab fa-github"></i></a>
+                <a target="_blank" title="Report a Bug" href="__URL_GITHUB__/issues"><i class="fas fa-bug"></i></a>
+                <a target="_blank" title="Suggest a Feature" href="__URL_GITHUB__/issues"><i class="fas fa-lightbulb"></i></a>
+                <a target="_blank" title="Leave a Review" href="__URL_STORE__"><i class="fas fa-star"></i></a>
+            </div>
         </div>
-        <h1>Do you want to enable quotes?</h1>
-        <form action="/action_page.php">
-            <input type="radio" id="enable-quotes" name="enable-quotes" value="yes">
-            <label for="html">yes</label><br>
-            <input type="radio" id="disable-quotes" name="enable-quotes" value="no">
-            <label for="css">no</label><br>
-        </form>
-        <button id="save">Save</button>
-        <!-- Display a message whenever the settings are saved -->
+
+        <!-- Blitz blocking -->
+        <div class="section">
+            <div class="section-title">Block Blitz Games</div>
+            <div class="radio-group">
+                <label for="block-blitz">
+                    <input type="radio" id="block-blitz" name="blitz-radio" value="yes">
+                    Yes
+                </label>
+                <label for="enable-blitz">
+                    <input type="radio" id="enable-blitz" name="blitz-radio" value="no">
+                    No
+                </label>
+                <label for="custom-blitz">
+                    <input type="radio" id="custom-blitz" name="blitz-radio" value="custom">
+                    Custom Rule
+                </label>
+            </div>
+
+            <div id="custom-rules-container" style="display: none;">
+                <h3>Custom Blitz Rule</h3>
+                <p>Allow games where:</p>
+                <div class="slider-row">
+                    <label for="custom-minutes">Minutes &ge;</label>
+                    <input type="range" id="custom-minutes" name="custom-minutes" min="3" max="15" value="3">
+                    <span class="slider-value" id="minutes-val">3</span>
+                </div>
+                <div class="operator-row">
+                    <select id="custom-operator">
+                        <option value="AND" selected>AND</option>
+                        <option value="OR">OR</option>
+                    </select>
+                </div>
+                <div class="slider-row">
+                    <label for="custom-increment">Increment &ge;</label>
+                    <input type="range" id="custom-increment" name="custom-increment" min="0" max="20" value="0">
+                    <span class="slider-value" id="increment-val">0</span>
+                    <span style="font-size:12px;color:var(--text-muted)">sec</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Puzzle variants -->
+        <div class="section">
+            <div class="section-title">Block Puzzle Variants</div>
+            <div class="checkbox-group" id="puzzle-variants">
+                <label for="block-storm">
+                    <input type="checkbox" id="block-storm" name="block-storm">
+                    Puzzle Storm
+                </label>
+                <label for="block-streak">
+                    <input type="checkbox" id="block-streak" name="block-streak">
+                    Puzzle Streak
+                </label>
+                <label for="block-racer">
+                    <input type="checkbox" id="block-racer" name="block-racer">
+                    Puzzle Racer
+                </label>
+            </div>
+        </div>
+
+        <!-- Quotes toggle -->
+        <div class="section">
+            <div class="section-title">Motivational Quotes</div>
+            <div class="radio-group">
+                <label for="enable-quotes">
+                    <input type="radio" id="enable-quotes" name="enable-quotes" value="yes">
+                    Enabled
+                </label>
+                <label for="disable-quotes">
+                    <input type="radio" id="disable-quotes" name="enable-quotes" value="no">
+                    Disabled
+                </label>
+            </div>
+        </div>
+
+        <button id="save">Save Settings</button>
         <div id="status"></div>
-        <hr class="solid">
+
         <div class="review">
-            <p>Do you like the extension?</p>
-            <a target="blank"
-                href="__URL_STORE__">Leave
-                a Review!
-            </a>
+            <p>Enjoying the extension?</p>
+            <a target="_blank" href="__URL_STORE__">Leave a Review</a>
         </div>
-        <a target="blank" title="Source Code" href="__URL_GITHUB__"><i
-                class="fab fa-github"></i></a>
-        <a target="blank" title="Report a bug" href="__URL_GITHUB__/issues"><i
-                class="fas fa-bug"></i></a>
     </div>
     <script src="services/storageService.js"></script>
     <script src="options.js"></script>
