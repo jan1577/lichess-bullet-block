@@ -8,6 +8,20 @@ const MIN_BLITZ_INDEX = 7; // Index for 3 minutes
 const MIN_RAPID_INDEX = 12; // Index for 8 minutes
 
 const TimeControlUtils = {
+  /** Safe regex for matching time controls like "3+0" or "10+5". */
+  TIME_CONTROL_RE: /\b(\d{1,4})\+(\d{1,4})\b/,
+
+  /**
+   * Extracts a time control string (e.g., "3+0") from arbitrary text.
+   * @param {string} text - Text that may contain a time control.
+   * @returns {string|null} - The matched substring or null.
+   */
+  extractTimeControl: function(text) {
+    if (!text) return null;
+    const match = text.match(this.TIME_CONTROL_RE);
+    return match ? match[0] : null;
+  },
+
   /**
    * Parses a time control string (e.g., "3+2") into minutes and increment.
    * @param {string} text - The time control string.
@@ -31,7 +45,7 @@ const TimeControlUtils = {
     }
     
     // Fallback for title parsing (e.g. "Rated Blitz game 5+0")
-    const match = text.match(/(\d+)\+(\d+)/);
+    const match = text.match(this.TIME_CONTROL_RE);
     if (match) {
       return {
         minutes: parseInt(match[1]),

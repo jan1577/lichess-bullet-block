@@ -158,9 +158,8 @@ if (document.querySelector("#main-wrap > main > div.round__app.variant-standard 
         StorageService.get(['block_blitz_storage']).then(function(result) {
              // We can check if the current game was Bullet or allowed Blitz
              // Title: "Rated Blitz game 3+0"
-             const match = link.match(/(\d+)\+(\d+)/);
-             if (match) {
-                 const tcStr = match[0];
+             const tcStr = TimeControlUtils.extractTimeControl(link);
+             if (tcStr) {
                  const tc = TimeControlUtils.parseTimeControl(tcStr);
                  
                  // If it behaves like bullet, hide "New Opponent"

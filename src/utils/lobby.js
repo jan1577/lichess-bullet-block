@@ -10,11 +10,11 @@ const LobbyUtils = {
         let game_title = row.title;
         
         // extract time control from game title
-        const match = game_title.match(/(\d+)\+(\d+)/);
+        const tcStr = TimeControlUtils.extractTimeControl(game_title);
         let timeControl = "";
         
-        if (match) {
-            timeControl = match[0];
+        if (tcStr) {
+            timeControl = tcStr;
         } else if (game_title.includes("Bullet")) {
             // Bullet is always blocked
             row.style.display = "none";
