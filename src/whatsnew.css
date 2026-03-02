@@ -1,0 +1,245 @@
+/* ── What's New — Lichess-themed ── */
+:root {
+    --bg-primary: #161512;
+    --bg-secondary: #1f1d1b;
+    --bg-card: #272523;
+    --bg-card-hover: #302e2c;
+    --accent: #bf811d;
+    --accent-hover: #d99a2e;
+    --accent-glow: rgba(191, 129, 29, 0.25);
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #787878;
+    --border: #3a3835;
+    --gold: #bf811d;
+    --radius: 10px;
+    --transition: 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+}
+
+/* ── Header ── */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.header-brand h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.version-badge {
+    display: inline-block;
+    margin-top: 2px;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(191, 129, 29, 0.12);
+    border: 1px solid rgba(191, 129, 29, 0.3);
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+}
+
+.header-links {
+    display: flex;
+    gap: 6px;
+}
+
+.header-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: background var(--transition), color var(--transition);
+}
+
+.header-links a:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.fab, .fas {
+    font-size: 15px;
+    color: inherit;
+}
+
+/* ── Hero ── */
+.hero {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.hero h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.hero-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* ── Cards ── */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.card-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(191, 129, 29, 0.1);
+    color: var(--accent);
+    font-size: 18px;
+}
+
+.card-body h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
+.card-body p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.card-body ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 12px;
+}
+
+.card-body ul li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.card-body ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.card-body ul li strong {
+    color: var(--text-primary);
+}
+
+/* Example callout */
+.example {
+    background: var(--bg-secondary);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.example-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.example strong {
+    color: var(--text-primary);
+}
+
+/* Side card (smaller emphasis) */
+.side-card .card-icon {
+    background: rgba(191, 129, 29, 0.06);
+    color: var(--text-muted);
+}
+
+/* ── Footer ── */
+.footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+}
+
+.footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.footer a {
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.footer a:hover {
+    color: var(--accent-hover);
+}

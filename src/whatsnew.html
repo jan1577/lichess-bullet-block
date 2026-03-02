@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="whatsnew.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+        integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <title>What's New? — Lichess Bullet Block</title>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-brand">
+                <img src="icons/48.png" alt="LBB" class="header-icon">
+                <div>
+                    <h1>What's New?</h1>
+                    <span class="version-badge">v1.3.0</span>
+                </div>
+            </div>
+            <div class="header-links">
+                <a target="_blank" title="Source Code" href="__URL_GITHUB__"><i class="fab fa-github"></i></a>
+                <a target="_blank" title="Report a Bug" href="__URL_GITHUB__/issues"><i class="fas fa-bug"></i></a>
+                <a target="_blank" title="Suggest a Feature" href="__URL_GITHUB__/issues"><i class="fas fa-lightbulb"></i></a>
+                <a target="_blank" title="Leave a Review" href="__URL_STORE__"><i class="fas fa-star"></i></a>
+            </div>
+        </header>
+
+        <!-- Hero -->
+        <section class="hero">
+            <h2>Custom Blitz Settings</h2>
+            <p class="hero-sub">Fine-grained control over which Blitz games to block</p>
+        </section>
+
+        <!-- Feature: Custom Blitz -->
+        <section class="card feature-card">
+            <div class="card-icon"><i class="fas fa-sliders-h"></i></div>
+            <div class="card-body">
+                <h3>Custom Blitz Rules</h3>
+                <p>
+                    You no longer have to choose between blocking all Blitz games or none.
+                    With the new <strong>Custom Rule</strong> option you can set exact thresholds:
+                </p>
+                <ul>
+                    <li><strong>Minutes &ge;</strong> — only allow Blitz games at or above this time control (3–15 min).</li>
+                    <li><strong>Increment &ge;</strong> — only allow games with at least this many seconds of increment (0–20 sec).</li>
+                    <li><strong>AND / OR</strong> — combine both conditions. <em>AND</em> means both must be met; <em>OR</em> means either one is enough.</li>
+                </ul>
+                <div class="example">
+                    <span class="example-label">Example</span>
+                    Set <strong>Minutes &ge; 8</strong> OR <strong>Increment &ge; 3</strong> to allow any game with increment of 3+ seconds.
+                    This would allow 5+3 and 10+0, while blocking 3+0, 3+2, 5+0.
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature: New Options Page -->
+        <section class="card side-card">
+            <div class="card-icon"><i class="fas fa-paint-brush"></i></div>
+            <div class="card-body">
+                <h3>Refreshed Options Page</h3>
+                <p>
+                    The settings page got a visual overhaul — dark Lichess-themed design, modern
+                    sliders, and cleaner layout. Same controls, better experience.
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>
+                Enjoying Lichess Bullet Block?
+                <a target="_blank" href="__URL_STORE__">Leave a review</a> —
+                it helps others find the extension.
+            </p>
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -153,15 +153,18 @@ async function start() {
     loadEnvFile(path.join(platformDir, `.env.${platform}`), env);
 
     if (Object.keys(env).length > 0) {
-      const optsPath = path.join(targetDir, 'options.html');
-      if (fs.existsSync(optsPath)) {
-        let content = fs.readFileSync(optsPath, 'utf8');
-        for (const [key, val] of Object.entries(env)) {
-          content = content.replace(new RegExp(`__${key}__`, 'g'), val);
+      const htmlFiles = ['options.html', 'whatsnew.html'];
+      for (const htmlFile of htmlFiles) {
+        const filePath = path.join(targetDir, htmlFile);
+        if (fs.existsSync(filePath)) {
+          let content = fs.readFileSync(filePath, 'utf8');
+          for (const [key, val] of Object.entries(env)) {
+            content = content.replace(new RegExp(`__${key}__`, 'g'), val);
+          }
+          fs.writeFileSync(filePath, content);
         }
-        fs.writeFileSync(optsPath, content);
-        console.log('Environment variables injected.');
       }
+      console.log('Environment variables injected.');
     }
 
     // Final Packaging
