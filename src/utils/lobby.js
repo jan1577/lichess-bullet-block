@@ -5,33 +5,36 @@ const LobbyUtils = {
      * @param {object} settings - The user settings.
      */
     processRow: function(row, settings) {
-        if (!row || !row.title) return;
+        if (!row) return;
         
-        let game_title = row.title;
+        let game_title = row.title || "";
         
         // extract time control from game title
-        const tcStr = TimeControlUtils.extractTimeControl(game_title);
-        let timeControl = "";
+        let tcStr = TimeControlUtils.extractTimeControl(game_title);
+        
+        // If title doesn't contain a time control, look in the <td> cells
+        if (!tcStr) {
+            const cells = row.getElementsByTagName('td');
+            for (let i = 0; i < cells.length; i++) {
+                const cellText = cells[i].textContent.trim();
+                // Check for special characters (½, ¼) or standard time control format
+                if (cellText.includes('½') || cellText.includes('¼') || TimeControlUtils.TIME_CONTROL_RE.test(cellText)) {
+                    tcStr = cellText;
+                    break;
+                }
+            }
+        }
         
         if (tcStr) {
-            timeControl = tcStr;
+            const isAllowed = TimeControlUtils.isGameAllowed(tcStr, settings);
+            if (!isAllowed) {
+                row.style.display = "none";
+            }
         } else if (game_title.includes("Bullet")) {
             // Bullet is always blocked
             row.style.display = "none";
-            return;
-        } else {
-            // Can't determine from title -> fallback or ignore
-            // Check if user has blitz blocked entirely
-            if (game_title.includes("Blitz") && settings['blitz_mode'] === 'yes') {
-                 row.style.display = "none";
-                 return;
-            }
-            return;
-        }
-
-        const isAllowed = TimeControlUtils.isGameAllowed(timeControl, settings);
-        
-        if (!isAllowed) {
+        } else if (game_title.includes("Blitz") && settings['blitz_mode'] === 'yes') {
+            // Block all blitz when blitz_mode is 'yes'
             row.style.display = "none";
         }
     },
