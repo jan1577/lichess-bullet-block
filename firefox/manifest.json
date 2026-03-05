@@ -56,7 +56,7 @@
             "id": "LichessBulletBlock@6a000b45-4a8a-4e5f-87af-924632e83527",
             "strict_min_version": "113.0",
             "data_collection_permissions": {
-                "required": []
+                "required": ["none"]
             }
         }
     }
