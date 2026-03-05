@@ -48,16 +48,12 @@ function insertQuote() {
     let p = document.createElement('p');
     p.id = 'quote-text';
     p.style.cssText = "text-align: center; margin: 0; font-style: italic; opacity: 0.85;";
-    p.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
+    p.textContent = quotes[Math.floor(Math.random() * quotes.length)];
     div.appendChild(p);
 
     const mainWrap = document.getElementById('main-wrap');
 
     if (mainWrap && mainWrap.parentNode) {
-        // Steal #main-wrap's margin-top (which clears the fixed header) so
-        // our div gets that spacing instead. Then zero out #main-wrap's own
-        // margin-top so it sits directly below the quote. This works
-        // consistently in both Chrome and Firefox.
         const mainWrapMarginTop = getComputedStyle(mainWrap).marginTop;
 
         div.style.cssText = [
