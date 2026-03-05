@@ -13,15 +13,21 @@ StorageService.get(['block_blitz_storage']).then(function(result) {
 const parent_lobby = document.querySelector("#main-wrap > main");
 
 // Observe tab switching (Lobby vs Quick Pairing vs Correspondence)
+// Lichess uses snabbdom which replaces the lobby__app div entirely on tab switch.
+// The class includes extra lck-* classes, so we must use classList.contains().
 const mutationObserver = new MutationObserver(mutations => {
-    if (!mutations[0] || !mutations[0].addedNodes[0]) return;
-    
-    const addedNode = mutations[0].addedNodes[0];
-    if (addedNode.className == "lobby__app lobby__app-real_time"){
-        lobby_open();
-    }
-    else if (addedNode.className == "lobby__app lobby__app-pools"){
-        remove_elements_QP();
+    for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+            if (node.nodeType !== 1 || !node.classList) continue;
+            if (node.classList.contains('lobby__app-real_time')) {
+                lobby_open();
+                return;
+            }
+            if (node.classList.contains('lobby__app-pools')) {
+                remove_elements_QP();
+                return;
+            }
+        }
     }
 });
 if (parent_lobby) {
@@ -52,8 +58,10 @@ if (document.querySelector("#main-wrap > main > div.lobby__table")){
  */
 function remove_elements_QP(){
     StorageService.get(['blitz_mode', 'block_blitz_storage', 'blitz_custom_rule']).then(function(result) {
-        // Get generic buttons (1+0, 3+0, etc.)
-        const buttons = document.querySelectorAll('[data-id]');
+        // Get pool buttons inside Quick Pairing (div.lpool with data-id)
+        const poolContainer = document.querySelector('.lobby__app__content.lpools');
+        if (!poolContainer) return;
+        const buttons = poolContainer.querySelectorAll('[data-id]');
         buttons.forEach(btn => {
             LobbyUtils.processQuickPairingButton(btn, result);
         });
@@ -65,7 +73,7 @@ function remove_elements_QP(){
  */
 function lobby_open(){
     let games_table = document.querySelector(
-        "#main-wrap > main > div.lobby__app.lobby__app-real_time > div.lobby__app__content.lreal_time > table"
+        ".lobby__app__content.lreal_time table"
     );
     if (!games_table) return;
 
@@ -134,12 +142,12 @@ function remove_preset_buttons() {
 
 // --- Initial Checks ---
 
-// Check if Quick Pairing is open
-if (document.querySelector('[data-id="1+0"]')){
+// Check if Quick Pairing is open (look for pool buttons or the pools content area)
+if (document.querySelector('.lobby__app__content.lpools [data-id]') || document.querySelector('[data-id="1+0"]')){
     remove_elements_QP();
 }
 // Check if Lobby is open
-else if (document.querySelector("#main-wrap > main > div.lobby__app.lobby__app-real_time > div.lobby__app__content.lreal_time > table > thead > tr > th:nth-child(2)")){
+else if (document.querySelector('.lobby__app__content.lreal_time table') || document.querySelector('.lobby__app-real_time')){
     lobby_open();
 }
 // Check if "Create Game" modal is open (e.g. direct link)

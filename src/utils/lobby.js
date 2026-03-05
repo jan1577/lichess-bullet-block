@@ -51,12 +51,12 @@ const LobbyUtils = {
         // Explicit Check for Bullet
         const tc = TimeControlUtils.parseTimeControl(text);
         if (tc && TimeControlUtils.isBullet(tc.minutes, tc.increment)) {
-            button.remove();
+            button.style.display = "none";
             return;
         }
 
         if (!TimeControlUtils.isGameAllowed(text, settings)) {
-             button.remove();
+             button.style.display = "none";
              return;
         }
     }
