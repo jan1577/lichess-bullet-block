@@ -1,3 +1,5 @@
+function $(id) { return document.getElementById(id); }
+
 function saveOptions() {
   let blitzMode = 'no';
   if (document.getElementById('block-blitz').checked) {
@@ -35,7 +37,6 @@ function saveOptions() {
   StorageService.set({
     blitz_mode: blitzMode,
     blitz_custom_rule: customRule,
-    // Keep legacy for backward compatibility if needed, but 'blitz_mode' is primary now
     block_blitz_storage: blitzMode === 'yes', 
     block_puzzle_storm: blockStorm,
     block_puzzle_racer: blockRacer,
@@ -140,7 +141,77 @@ function restorePuzzles(storageVar, elementId) {
 // in chrome local storage, second the html id of the checkbox
 const puzzleArray = ['block_puzzle_streak', 'block-streak', 'block_puzzle_storm', 'block-storm', 'block_puzzle_racer', 'block-racer']
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
+document.addEventListener('DOMContentLoaded', function () {
+  restoreOptions();
+  initLock();
+});
 
 document.getElementById('save').addEventListener('click',
   saveOptions);
+
+/* ── Lock / Unlock Settings ── */
+function initLock() {
+  var overlay  = $('lock-overlay');
+  var unlockBtn   = $('unlock-btn');
+  var progressBar = $('unlock-progress');
+  var timerSpan   = $('unlock-timer');
+  var lockBtn     = $('lock-btn');
+  var lockIcon    = lockBtn.querySelector('i');
+  var lockLabel   = $('lock-btn-label');
+
+  var HOLD_DURATION = 20; // seconds
+  var holdInterval = null;
+  var holdStart = null;
+  var locked = false;
+
+  function setLocked(state) {
+    locked = state;
+    StorageService.set({ settings_locked: state }).catch(function () {});
+    lockIcon.className = state ? 'fas fa-lock' : 'fas fa-lock-open';
+    lockLabel.textContent = state ? 'Settings Locked' : 'Lock Settings';
+    lockBtn.classList.toggle('locked', state);
+    overlay.classList.toggle('active', state);
+  }
+
+  function resetProgress() {
+    clearInterval(holdInterval);
+    holdInterval = null;
+    holdStart = null;
+    unlockBtn.classList.remove('holding');
+    progressBar.style.width = '0%';
+    timerSpan.textContent = HOLD_DURATION + 's';
+  }
+
+  function startHold() {
+    holdStart = Date.now();
+    unlockBtn.classList.add('holding');
+    holdInterval = setInterval(function () {
+      var elapsed = (Date.now() - holdStart) / 1000;
+      var pct = Math.min(elapsed / HOLD_DURATION * 100, 100);
+      progressBar.style.width = pct + '%';
+      timerSpan.textContent = Math.max(Math.ceil(HOLD_DURATION - elapsed), 0) + 's';
+      if (elapsed >= HOLD_DURATION) {
+        resetProgress();
+        setLocked(false);
+      }
+    }, 50);
+  }
+
+  // Restore persisted lock state (default: unlocked)
+  StorageService.get(['settings_locked']).then(function (item) {
+    if (item['settings_locked']) setLocked(true);
+  }).catch(function () {});
+
+  // Unlock hold
+  unlockBtn.addEventListener('mousedown', startHold);
+  unlockBtn.addEventListener('mouseup', resetProgress);
+  unlockBtn.addEventListener('mouseleave', resetProgress);
+  unlockBtn.addEventListener('touchstart', function (e) { e.preventDefault(); startHold(); });
+  unlockBtn.addEventListener('touchend', resetProgress);
+  unlockBtn.addEventListener('touchcancel', resetProgress);
+
+  // Lock button: save, then lock
+  lockBtn.addEventListener('click', function () {
+    if (!locked) { saveOptions(); setLocked(true); }
+  });
+}

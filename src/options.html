@@ -11,6 +11,20 @@
 </head>
 
 <body>
+    <!-- Lock overlay -->
+    <div id="lock-overlay">
+        <div class="lock-overlay-content">
+            <div class="lock-icon"><i class="fas fa-lock"></i></div>
+            <p class="lock-title">Settings Locked</p>
+            <p class="lock-subtitle">Are you sure you want to unlock the settings?</p>
+            <button id="unlock-btn">
+                <span class="unlock-btn-text">Hold to Unlock</span>
+                <span class="unlock-timer" id="unlock-timer">20s</span>
+                <div class="unlock-progress" id="unlock-progress"></div>
+            </button>
+        </div>
+    </div>
+
     <div id="content">
         <!-- Top bar with branding & icon links -->
         <div class="top-bar">
@@ -101,6 +115,7 @@
             </div>
         </div>
 
+        <button id="lock-btn" title="Lock settings behind a 20-second hold to prevent impulsive changes"><i class="fas fa-lock-open"></i> <span id="lock-btn-label">Lock Settings</span></button>
         <button id="save">Save Settings</button>
         <div id="status"></div>
 
