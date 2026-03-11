@@ -18,7 +18,7 @@
                 <img src="icons/48.png" alt="LBB" class="header-icon">
                 <div>
                     <h1>What's New?</h1>
-                    <span class="version-badge">v1.3.0</span>
+                    <span class="version-badge">v1.4.0</span>
                 </div>
             </div>
             <div class="header-links">
@@ -31,50 +31,19 @@
 
         <!-- Hero -->
         <section class="hero">
-            <h2>Custom Blitz Settings</h2>
-            <p class="hero-sub">Fine-grained control over which Blitz games to block</p>
+            <h2>Lock Settings</h2>
+            <p class="hero-sub">Prevent impulsive setting changes with a timed lock</p>
         </section>
 
-        <!-- Feature: Custom Blitz -->
+        <!-- Feature: Lock Settings -->
         <section class="card feature-card">
-            <div class="card-icon"><i class="fas fa-sliders-h"></i></div>
+            <div class="card-icon"><i class="fas fa-lock"></i></div>
             <div class="card-body">
-                <h3>Custom Blitz Rules</h3>
+                <h3>Lock Settings</h3>
                 <p>
-                    You no longer have to choose between blocking all Blitz games or none.
-                    With the new <strong>Custom Rule</strong> option you can set exact thresholds:
-                </p>
-                <ul>
-                    <li><strong>Minutes &ge;</strong> — only allow Blitz games at or above this time control (3–15 min).</li>
-                    <li><strong>Increment &ge;</strong> — only allow games with at least this many seconds of increment (0–20 sec).</li>
-                    <li><strong>AND / OR</strong> — combine both conditions. <em>AND</em> means both must be met; <em>OR</em> means either one is enough.</li>
-                </ul>
-                <div class="example">
-                    <span class="example-label">Example</span>
-                    Set <strong>Minutes &ge; 8</strong> OR <strong>Increment &ge; 3</strong> to allow any game with increment of 3+ seconds.
-                    This would allow 5+3 and 10+0, while blocking 3+0, 3+2, 5+0.
-                </div>
-            </div>
-        </section>
-
-        <!-- Feature: Preset Buttons -->
-        <section class="card side-card">
-            <div class="card-icon"><i class="fas fa-crop"></i></div>
-            <div class="card-body">
-                <h3>Preset Buttons</h3>
-                <p>
-                    The extension now removes the small preset time format buttons below the sliders when starting a new lobby game.
-                </p>
-            </div>
-        </section>
-
-        <!-- Feature: Bug Fixes -->
-        <section class="card side-card">
-            <div class="card-icon"><i class="fas fa-bug"></i></div>
-            <div class="card-body">
-                <h3>Bug Fixes</h3>
-                <p>
-                    The updates fixes some minor bugs that occured due to changes on the Lichess website.
+                    A new <strong>lock button</strong> lets you lock your options page behind
+                    a <strong>20-second hold</strong>. When locked, a full-screen overlay blocks access
+                    until you press and hold the unlock button for the full duration.
                 </p>
             </div>
         </section>
