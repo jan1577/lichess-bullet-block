@@ -14,7 +14,7 @@ const parent_lobby = document.querySelector("#main-wrap > main");
 
 // Observe tab switching (Lobby vs Quick Pairing vs Correspondence)
 // Lichess uses snabbdom which replaces the lobby__app div entirely on tab switch.
-// The class includes extra lck-* classes, so we must use classList.contains().
+// The class includes extra lck-* classes, use classList.contains()
 const mutationObserver = new MutationObserver(mutations => {
     for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
@@ -34,22 +34,37 @@ if (parent_lobby) {
     mutationObserver.observe(parent_lobby, {childList: true});
 }
 
-// Observe "Create a Game" modal opening
-if (document.querySelector("#main-wrap > main > div.lobby__table")){
-  const lobby_start = document.querySelector("#main-wrap > main > div.lobby__table");
+// Observe "Create a Game", "Play against computer", or "Challenge" modal opening globally
+const mutationObserver_lobby_start = new MutationObserver(mutations => {
+    let shouldUpdate = false;
+    for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+            if (node.nodeType === 1) {
+                // If the added node is the modal itself or contains it
+                if (node.querySelector('.setup-content input.range') || node.classList?.contains('setup-content')) {
+                    shouldUpdate = true;
+                    break;
+                }
+            }
+        }
+        if (shouldUpdate) break;
+    }
+    
+    // Also handle when sliders' min attributes are actively ignored by react
+    if (document.querySelector(".setup-content input.range")) {
+        const timeSlider = document.querySelector(".setup-content input.range");
+        if (timeSlider && !timeSlider.hasAttribute("data-lbb-processed")) {
+             shouldUpdate = true;
+        }
+    }
 
-  const mutationObserver_lobby_start = new MutationObserver(mutations => {
-      // Check if modal opened (mask or active button)
-      if (document.querySelector("#main-wrap > main > div.lobby__table > div.snab-modal-mask")) {
+    if (shouldUpdate) {
         change_slider();
-      }
-      else if (document.querySelector("#main-wrap > main > div.lobby__table > div.lobby__start > a.button.button-metal.config_hook.active")){
-          change_slider();
-      }
-  });
+    }
+});
 
-  mutationObserver_lobby_start.observe(lobby_start, {childList: true});
-}
+// Observe the entire body for added dialogs or modals
+mutationObserver_lobby_start.observe(document.body, { childList: true, subtree: true });
 
 // --- Main Controllers ---
 
@@ -108,15 +123,14 @@ function remove_elements_lobby(games_table){
  */
 function change_slider(){
     // Find sliders
-    let sliders = document.querySelectorAll(".lobby__table .setup-content input.range");
-    if (sliders.length === 0) {
-        sliders = document.querySelectorAll(".setup-content input.range");
-    }
-
+    let sliders = document.querySelectorAll(".setup-content input.range");
+    
     if (sliders.length === 0) return;
 
     let timeSlider = sliders[0];
-    let incSlider = sliders[1]; // might be undefined
+    let incSlider = sliders[1];
+    
+    timeSlider.setAttribute('data-lbb-processed', 'true');
 
     StorageService.get(['blitz_mode', 'block_blitz_storage', 'blitz_custom_rule']).then(function(result) {
         SliderUtils.applyConstraints(timeSlider, incSlider, result);
@@ -164,17 +178,14 @@ if (document.querySelector("#main-wrap > main > div.round__app.variant-standard 
     if (new_opponent) {
         let link = document.title + " " + (document.querySelector('.game__meta')?.innerText || "");
         StorageService.get(['block_blitz_storage']).then(function(result) {
-             // We can check if the current game was Bullet or allowed Blitz
              // Title: "Rated Blitz game 3+0"
              const tcStr = TimeControlUtils.extractTimeControl(link);
              if (tcStr) {
                  const tc = TimeControlUtils.parseTimeControl(tcStr);
                  
-                 // If it behaves like bullet, hide "New Opponent"
                  if (tc && TimeControlUtils.isBullet(tc.minutes, tc.increment)) {
                      new_opponent.style.display = "none";
                  } 
-                 // If it is Blitz and Blitz is blocked/restricted, hide it
                  else if (tc && TimeControlUtils.isBlitz(tc.minutes, tc.increment)) {
                      if (!TimeControlUtils.isGameAllowed(tcStr, result)) {
                          new_opponent.style.display = "none";
