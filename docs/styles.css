@@ -1,0 +1,387 @@
+:root {
+    color-scheme: dark;
+    --bg-primary: #161512;
+    --bg-secondary: #1f1d1b;
+    --bg-card: #272523;
+    --bg-card-hover: #302e2c;
+    --accent: #bf811d;
+    --accent-hover: #d99a2e;
+    --accent-glow: rgba(191, 129, 29, 0.25);
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #787878;
+    --border: #3a3835;
+    --gold: #bf811d;
+    --radius: 8px;
+    --transition: 0.2s ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 380px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+}
+
+.page-shell {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 28px 20px 44px;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.brand-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.top-bar-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.top-bar-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.top-bar-links a:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    padding: 20px;
+}
+
+.eyebrow,
+.section-kicker {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.hero-copy h1,
+.install-card h2 {
+    margin: 0;
+    color: var(--text-primary);
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+}
+
+.hero-copy h1 {
+    font-size: clamp(2.4rem, 4.6vw, 4rem);
+    max-width: 12ch;
+}
+
+.lead,
+.feature-card p,
+.install-card p,
+.faq-card p,
+.footer p {
+    color: var(--text-secondary);
+}
+
+.lead {
+    margin: 14px 0 0;
+    max-width: 56ch;
+    font-size: 15px;
+}
+
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.button-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
+.button-primary:hover {
+    background: var(--accent-hover);
+}
+
+.button-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.button-secondary:hover {
+    background: var(--bg-card-hover);
+}
+
+.hero-panel {
+    display: grid;
+    gap: 12px;
+}
+
+.stats-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.stat-card,
+.feature-card,
+.install-card,
+.faq-card,
+.footer {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.stat-card {
+    padding: 14px 16px;
+}
+
+.stat-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.stat-card strong {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.browser-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.browser-row img {
+    width: 26px;
+    height: 26px;
+    display: block;
+}
+
+.features {
+    display: grid;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.features {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.feature-card,
+.install-card,
+.faq-card {
+    padding: 16px;
+}
+
+.feature-card h2,
+.install-card h2,
+.faq-card h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.feature-card p,
+.install-card p,
+.faq-card p {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+.install-card {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 20px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.install-list {
+    display: grid;
+    gap: 10px;
+}
+
+.install-list a {
+    display: block;
+    padding: 12px 14px;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.install-list a:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.faq-card-single {
+    margin-top: 12px;
+}
+
+.faq-list {
+    display: grid;
+    gap: 10px;
+}
+
+.faq-list details {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+}
+
+.faq-list summary {
+    cursor: pointer;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.faq-list summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-list details p {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 13.5px;
+    line-height: 1.55;
+}
+
+.faq-list a {
+    color: var(--gold);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.faq-list a:hover {
+    color: var(--accent-hover);
+}
+
+@media (max-width: 900px) {
+    .hero,
+    .install-card,
+    .features {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    body {
+        min-width: 0;
+    }
+
+    .page-shell {
+        padding: 16px 12px 28px;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .top-bar-links {
+        width: 100%;
+    }
+
+    .top-bar-links a {
+        flex: 1 1 auto;
+    }
+
+    .hero-copy h1 {
+        max-width: none;
+        font-size: clamp(2rem, 11vw, 3rem);
+    }
+
+    .cta-row {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+    }
+}
