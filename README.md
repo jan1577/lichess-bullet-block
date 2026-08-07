@@ -27,6 +27,8 @@ you from wasting your time by chasing the next dopamine push.
 
 In addition, you can disable Blitz Games and select Puzzle modes you want to block.
 
+Project website: https://jan1577.github.io/lichess-bullet-block/
+
 ## Setup
 You can get the extension in the Chrome Webstore or add it to your browser manually.
 
